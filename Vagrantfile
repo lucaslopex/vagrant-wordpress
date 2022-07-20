@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
     
     config.vm.define "srvword" do |srvword|
         #IP da rede externa
-        srvword.vm.network "public_network", ip: "10.0.17.70"
+        srvword.vm.network "public_network", bridge: "TP-Link Gigabit PCI Express Adapter", ip: "10.0.17.70"
         #Instalacao do certificado
         #srvword.vm.provision "shell", inline: "cat /archive/ubuntu.pub >> .ssh/authorized_keys"
         #Rodar script da instalação do wordpress
@@ -43,7 +43,7 @@ Vagrant.configure("2") do |config|
         srvword.vm.provision "shell", inline: $script_bd_wordpress
         
         #Liberacao de portas
-        srvword.vm.network "forwarded_port", guest: 80, host: 80
-        srvword.vm.network "forwarded_port", guest: 443, host: 443
+        srvword.vm.network "forwarded_port", guest: 80, host: 80, host_ip: "10.0.17.70"
+        srvword.vm.network "forwarded_port", guest: 443, host: 443, host_ip: "10.0.17.70"
     end    
 end
